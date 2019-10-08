@@ -1,0 +1,286 @@
+﻿@model IEnumerable<BizManager.ViewModel.WragbyAdminViewModel.BatchListViewModel>
+
+@{
+  ViewData["Title"] = "License";
+  Layout = "~/Views/Shared/_LayoutWragbyAdmin.cshtml";
+}
+
+
+
+
+<style>
+  .body-card {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+  }
+
+  .button-padding {
+    margin-right: 10px
+  }
+
+  .button-custom {
+    width: 100px;
+  }
+
+  .formdiv {
+    margin-bottom: 12px;
+  }
+  }
+</style>
+
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header body-card">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-6 pull-left">
+                <h4 class="card-title">Licenses</h4>
+              </div>
+
+              <div class="col-md-6 pull-right">
+
+
+                <button class="btn btn-success btn-md pull-right btn-responsive" data-toggle="modal" data-target="#exampleModalLong">
+
+                  <span class="btn-label">
+                    <i class="now-ui-icons ui-1_simple-add"></i>
+                  </span>
+
+                  New License
+
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add New License</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form class="form-horizontal">
+                          <div class="col-md-12 formdiv">
+                            <label>License Batch Name</label>
+                            <input name="batchName" id="batchName" type="text" class="form-control" placeholder="Batch 1" required>
+                          </div>
+
+                          <div class="col-md-12 formdiv">
+                            <label>No of License</label>
+                            <input name="nLicense" id="nLicense" type="number" class="form-control" placeholder="20" required>
+                          </div>
+
+                          <div class="col-md-12 formdiv">
+                            <label>Bundle Description</label>
+                            <textarea name="bDescription" id="bDescription" class="form-control" placeholder="Starter Pack and Starter Pack Details"></textarea>
+
+                          </div>
+                          <div class="col-md-12 formdiv">
+                            <label>License Type</label>
+                            <select name="lType" id="lType" class="form-control" asp-items="@ViewBag.LicenseType"></select>
+                          </div>
+
+                          <div class="col-md-12 formdiv">
+                            <label>License Price</label>
+                            <input name="lPrice" id="lPrice" type="number" class="form-control" placeholder="20" required>
+                          </div>
+
+                          <div class="col-md-12 formdiv">
+                            <label>License Days</label>
+                            <select name="lDays" id="lDays" class="form-control">
+                              <option value="7">7 days</option>
+                              <option value="14">14 days</option>
+                              <option value="30">30 days</option>
+                              <option value="90">90 days</option>
+                              <option value="180">180 days</option>
+                              <option value="365">365 days</option>
+                            </select>
+
+                          </div>
+                          <div class="col-md-12 formdiv">
+                            <label>Expiration Date</label>
+                            <input name="eDate" id="eDate" type="date" class="form-control" required>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button name="AddLicence" id="AddLicence" type="button" class="btn btn-info">Generate</button>
+                          </div>
+
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card-body body-card">
+          <div class="row">
+
+
+            <div class="col-lg-12">
+              <div class="table-responsive" style="overflow:auto;">
+                <table id="datatable compact" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th><strong>Batch</strong></th>
+                      <th><strong>Date Created</strong></th>
+                      <th><strong>Batch Description</strong></th>
+                      <th class="text-center"><strong>Expiring Date</strong></th>
+
+                      <th class="text-center"><strong>No of Licenses</strong></th>
+                      <th class="text-center"><strong>Consumed License</strong></th>
+                      <th class="pull-right"><strong>Actions</strong></th>
+                    </tr>
+                  </thead>
+                  <tbody class="fontweight">
+
+                    @foreach (var item in Model)
+                    {
+                      <tr>
+                        <td class="table-font">@item.BatchLK.BatchName</td>
+                        <td>@item.BatchLK.DateCreated.ToString("MMM dd, yyyy")</td>
+                        <td>@item.BatchLK.BatchDescription</td>
+                        <td class="text-center">@item.BatchLK.BatchExpiryDate.ToString("MMM dd, yyyy")</td>
+                        <td class="text-center">@item.BatchLK.NoOfLicense</td>
+                        <td class="text-center">@item.ConsumedLicense</td>
+                        <td class="">
+                          <a asp-route-id="@item.BatchLK.Id" asp-action="ViewLicense" asp-controller="Admin" class="btn btn-info pull-right" data-toggle="tooltip" title="View Details"><i class="fa fa-eye"></i></a>
+                        </td>
+                      </tr>
+
+                    }
+
+                    @*<tr>
+
+              <td scope="row" class="table-font">Batch 2</td>
+              <td scope="row">Sept 20, 2019</td>
+              <td scope="row">Plus Pack, with all plus pack description </td>
+              <td scope="row" class="text-center">July 20,2019</td>
+              <td class="text-center">2019</td>
+              <td class="text-center">90</td>
+              <td class="">
+                <a asp-action="ViewLicense" asp-controller="Admin" class="btn btn-info pull-right" data-toggle="tooltip" title="View Details"><i class="fa fa-eye"></i></a>
+              </td>
+            </tr>
+            <tr>
+
+              <td class="table-font">Batch 3</td>
+              <td>Dec 20,2019</td>
+              <td>Starter Pack, with all starter pack description </td>
+              <td class="text-center">July 20, 2019</td>
+              <td class="text-center">2019</td>
+              <td class="text-center">40</td>
+              <td class="">
+                <a asp-action="ViewLicense" asp-controller="Admin" class="btn btn-info pull-right"><i class="fa fa-eye"></i></a>
+              </td>
+            </tr>*@
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+@section Scripts {
+
+  <script type="text/javascript">
+
+        $(document).ready(function () {
+
+         $("#AddLicence").click(function (event) {
+
+          event.preventDefault();
+
+              //$("#loading-overlay").show();
+          var LicenseBatchViewModel = {
+                BatchName: $("#batchName").val(),
+                NoOfLicense: $("#nLicense").val(),
+                BundleDescription: $("#bDescription").val(),
+                LicenseTypeId: $("#lType").val(),
+                LicensePrice: $("#lPrice").val(),
+                LicenseDays: $("#lDays").val(),
+                ExpirationDate: $("#eDate").val(),
+           };
+
+
+          console.log(LicenseBatchViewModel);
+
+          $.ajax({
+            type: "POST",
+            url: "/Admin/CreateLicence",
+            data: JSON.stringify(LicenseBatchViewModel),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+              RequestVerificationToken:
+                $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            success: function (r) {
+
+              if (r.msg == "Success") {
+
+        	    swal({
+                    title: "Success!",
+                    text: "Licence Created!",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                type: "success"
+              }).then(function () {
+                window.location.reload();
+              }).catch(swal.noop);
+
+              } else if (r.msg == "Fail") {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+
+              } else if (r.msg == "No Data") {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+
+              } else {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+              }
+
+            },
+            error: function () {
+              $("#loading-overlay").hide();
+              alert(r.msg);
+            }
+          });
+        });
+
+    })
+
+
+  </script>
+
+
+}
+

@@ -1,0 +1,333 @@
+﻿@model BizManager.ViewModel.ViewOrganisationDetails 
+
+@{
+    ViewData["Title"] = "Update Organization Details";
+    Layout = "~/Views/Shared/_LayoutWragbyAdmin.cshtml";
+}
+
+
+
+
+<div class="content">
+    <div class="col-md-10 ">
+        <!--      Wizard container -->
+        <div class="wizard-container">
+            <div class="card ">
+
+                <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+                <div class="card-header text-center" data-background-color="orange">
+                    <h3 class="card-title">
+                    </h3>
+                    <h5 class="description">Update Organization Information</h5>
+
+                    <input hidden />
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="col-md-12">
+
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-md-3" style="background-color:white">
+                                        <div class="col-sm-12">
+
+                                            <form method="post">
+                                                <h5 class="description">Organisation Logo</h5>
+
+                                                <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail">
+                                                        <img src="@Model.Organisation.ImageUrl" id="imageUploadForm" name="image" multiple="multiple" alt="...">
+                                                    </div>
+
+                                                    <div>
+
+                                                        <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-success btn-md fileinput-exists">Upload</button>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+                                        <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#link4" role="tablist">
+                                                    Organisations
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#link5" role="tablist">
+                                                    Users
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#link6" role="tablist">
+                                                    Options
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="link4">
+
+                                                <div class="row justify-content-center">
+                                                    <h5 class="info-text"> Update organization basic information (with validation)</h5>
+                                                    <div class="col-sm-8">
+                                                        <label class="col-md-9 col-form-label">Registration No</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" value="@Model.Organisation.RegistrationNo" readonly class="form-control" placeholder="E.g 123454 (required)">
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Organisation Name</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" value="@Model.Organisation.OrganisationName" readonly placeholder="Wragby Business Solutions (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Phone Number</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.PhoneNumber" placeholder="08137422773 (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Email</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.Email" placeholder="Eadewuyi@wragbysolutions.com (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Zip Code</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.ZipCode" placeholder="100242 (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Tax ID</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.TaxId" placeholder="F002E (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Organisation Prefix</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.OrganisationPrefix" placeholder="WBS (required)" class="form-control" />
+                                                        </div>
+                                                        <label class="col-md-9 col-form-label">Address</label>
+                                                        <div class="input-group form-control-lg">
+                                                            <input type="text" readonly value="@Model.Organisation.Address" placeholder="Last Name (required)" class="form-control" />
+                                                        </div>
+                                                        @*<label>Country</label>
+                                                            <div class="form-group">
+                                                                <select id="country" class="form-control" asp-for="Country" required><option value="@null">-- Country --</option></select>
+                                                            </div>
+
+                                                            <label>State</label>
+                                                            <div class="form-group">
+                                                                <select id="region" class="form-control" asp-for="@Model.Organisation." required><option value="@null">-- State --</option></select>
+                                                            </div>
+
+                                                            <label>City</label>
+                                                            <div class="form-group">
+                                                                <select id="city" class="form-control" asp-for="City" required><option value="@null">-- City --</option></select>
+                                                            </div>*@
+                                                        <div class="form-group">
+                                                            <a class="btn btn-fill btn-success" style="color: #fff;">Activate</a>
+                                                            <a class="btn btn-fill btn-primary" style="color: #fff;">Deactivate</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane" id="link5">
+
+                                                <div class="table-responsive col-md-12" style="overflow:auto;">
+                                                    <table id="datatable2" class="table table-striped" cellspacing="10" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center"><strong>S/N</strong></th>
+                                                                <th scope="col"><strong>User Name</strong></th>
+                                                                <th scope="col" class="text-center"><strong>Role </strong></th>
+                                                                <th scope="col" class="text-center"><strong>Email  </strong></th>
+                                                                <th scope="col" class="text-center"><strong>Status</strong></th>
+                                                                <th scope="col" class="text-center"><strong>Actions</strong></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="fontweight">
+                                                            @{
+                                                                int i = 1;
+
+                                                                @if (Model.applicationUsers.Count() < 1)
+                                                                {
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td>No Organisation to Display</td>
+                                                                        <td></td>
+
+                                                                    </tr>
+
+                                                                }
+
+                                                                @foreach (var item in Model.applicationUsers)
+                                                                {
+
+                                                                    <tr>
+                                                                        <td scope="row" class="table-font text-center">
+                                                                            @i
+                                                                        </td>
+
+                                                                        <td scope="row">@item</td>
+                                                                        <td scope="row" class="text-center">@item.FirstName @item.MiddleName @item.LastName</td>
+                                                                        <td scope="row" class="text-center">@item.UserRole</td>
+                                                                        <td scope="row" class="text-center">@item.Email</td>
+                                                                        <td scope="row" class="text-center"> <button class="btn btn-success">Active</button></td>
+                                                                        <td class="">
+                                                                            <a asp-action="UpdateOrganizationDetails" asp-controller="Admin" class="btn btn-info text-center" data-toggle="tooltip" title="View Details"><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    { i = i + 1; }
+                                                                }
+                                                            }
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="link6">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            @*</form>*@
+        </div>
+    </div>
+    <!-- wizard container -->
+</div>
+    
+
+
+
+@section Scripts {
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#datatable2').DataTable({
+                "pagingType": "full_numbers",
+                dom: "Bfrtip",
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+
+
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print',
+                ],
+
+
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search records",
+                }
+
+            });
+
+            var table = $('#datatable2').DataTable();
+
+            // Delete a record
+            table.on('click', '.remove', function (e) {
+                $tr = $(this).closest('tr');
+
+                jobId = $(this).attr('JobId');
+                jobTitle = $(this).attr('JobTitle');
+
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You are about to delete '" + jobTitle + "'",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'Yes, delete it!',
+                    buttonsStyling: false
+                }).then(function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Jobs/deleteJobTitle",
+                        data: JSON.stringify(jobId),
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (r) {
+
+                            if (r.msg == "Success") {
+
+                                swal({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted.',
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    buttonsStyling: false
+                                });
+
+
+                            } else if (r.msg == "Fail") {
+
+                                alert(r.msg);
+
+                            } else if (r.msg == "No Data") {
+                                alert(r.msg);
+
+                            } else {
+                                alert(r.msg);
+                            }
+                            //alert(r.msg);
+                            // window.location.reload();
+
+                        },
+                        error: function () {
+                            alert(r.msg);
+                        }
+                    });
+
+
+                    table.row($tr).remove().draw();
+
+                }).catch(swal.noop);
+
+
+                e.preventDefault();
+            });
+
+            //Like record
+            table.on('click', '.like', function () {
+                alert('You clicked on Like button');
+            });
+        });
+    </script>
+
+
+}
+
+

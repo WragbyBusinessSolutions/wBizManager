@@ -1,0 +1,319 @@
+﻿@model  IEnumerable<E4S.Models.AccountInventory.Expense>
+
+@{
+  ViewData["Title"] = "Expense Type";
+  Layout = "~/Views/Shared/_LayoutAccountInventory.cshtml";
+}
+
+<style>
+  .body-card {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+  }
+
+  .table-font {
+    font-weight: 500;
+  }
+</style>
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header body-card">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-6 pull-left">
+                <h4 class="card-title">Expense Type</h4>
+              </div>
+
+              <div class="btn-group pull-right">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Export Data
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Copy</a>
+                  <a class="dropdown-item" href="#">CSV</a>
+                  <a class="dropdown-item" href="#">Excel</a>
+                  <a class="dropdown-item" href="#">PDF</a>
+                  <a class="dropdown-item" href="#">Print</a>
+
+                </div>
+              </div>
+
+              <button class="btn btn-info btn-md pull-right btn-responsive" data-toggle="modal" data-target="#exampleModalLong">
+                <span class="btn-label">
+                  <i class="now-ui-icons travel_info"></i>
+                </span>
+                New Expense Type
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Expenses Type</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <form>
+                        <label class="pull-left">Expense Type</label>
+                        <input id="expenseType" name="expenseType" type="text" class="form-control" placeholder="Expense Type" />
+                        <br />
+                        <label class="pull-left">Description</label>
+                        <input id="description" name="description" type="text" class="form-control" />
+                        <br />
+                      </form>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button id="btnAddExpense" name="btnAddExpense" type="submit" class="btn btn-info">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-body body-card">
+
+          <div class="table-responsive-sm">
+            <table id="datatable2" class="table table-hover">
+              <thead>
+                <tr>
+                  <th><strong>S/N</strong></th>
+                  <th scope="col"><strong>Expense</strong></th>
+                  <th scope="col" class="disabled-sorting"><strong>Actions</strong></th>
+                </tr>
+              </thead>
+              <tbody class="fontweight">
+                @{
+                  int i = 1;
+
+                  foreach (var item in Model)
+                  {
+                    <tr>
+                      <td>@i</td>
+                      <td>@item.ExpenseType</td>
+
+                      <td class="">
+                          @*<a href="#" class="btn btn-warning btn-icon btn-sm edit"><i class="fas fa-edit"></i></a>*@
+                          <a asp-action="EditExpenseType" asp-route-id="@item.Id" class="btn btn-warning btn-icon btn-sm" data-toggle="tooltip" data-placement="top" title="Click To Edit"><i class="fas fa-edit"></i></a>
+
+
+                          <a href="#" data-toggle="tooltip" data-placement="top" title="Click To Delete" class="btn btn-danger btn-icon btn-sm remove" expenseId="@item.Id" expenseType="@item.ExpenseType" description="@item.Description"><i class="fas fa-times"></i></a>
+
+                          @*<a href="#" class="btn btn-danger btn-icon btn-sm remove"><i class="fas fa-times"></i></a>*@
+                      </td>
+                    </tr>
+
+                    i++;
+
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+@section Scripts {
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#datatable2').DataTable({
+                "pagingType": "full_numbers",
+                dom: "Bfrtip",
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+
+
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print',
+                ],
+
+
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search records",
+                }
+
+            });
+
+            var table = $('#datatable2').DataTable();
+
+
+            // Delete a record
+            table.on('click', '.remove', function (e) {
+                $tr = $(this).closest('tr');
+
+                expenseId = $(this).attr('expenseId');
+                expenseType = $(this).attr('expenseType');
+                description = $(this).attr('description');
+
+
+                
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You are about to delete '" + expenseType + "'",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    confirmButtonText: 'Yes, delete it!',
+                    buttonsStyling: false
+                }).then(function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/OperatingExpenses/DeleteExpenseType",
+                        data: JSON.stringify(expenseId),
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (r) {
+
+                            if (r.msg == "Success") {
+
+                                swal({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted.',
+                                    type: 'success',
+                                    confirmButtonClass: "btn btn-success",
+                                    buttonsStyling: false
+                                });
+
+
+                            } else if (r.msg == "Fail") {
+
+                                alert(r.msg);
+
+                            } else if (r.msg == "No Data") {
+                                alert(r.msg);
+
+                            } else {
+                                alert(r.msg);
+                            }
+                            //alert(r.msg);
+                            // window.location.reload();
+
+                        },
+                        error: function () {
+                            alert(r.msg);
+                        }
+                    });
+
+
+                    table.row($tr).remove().draw();
+
+                }).catch(swal.noop);
+
+
+                e.preventDefault();
+            });
+
+            //Like record
+            table.on('click', '.like', function () {
+                alert('You clicked on Like button');
+            });
+        });
+    </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+     $("#btnAddExpense").click(function (event) {
+
+      event.preventDefault();
+
+      //$("#loading-overlay").show();
+
+      var Expense = {
+        ExpenseType: $("#expenseType").val(),
+        Description: $("#description").val(),
+      };
+
+
+      console.log(Expense);
+
+      $.ajax({
+        type: "POST",
+        url: "/OperatingExpenses/AddExpenseType",
+        data: JSON.stringify(Expense),
+        dataType: "json",
+        contentType: 'application/json; charset=utf-8',
+        headers: {
+          RequestVerificationToken:
+            $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        success: function (r) {
+
+          if (r.msg == "Success") {
+
+        	swal({
+                title: "Success!",
+                text: "Expense Added!",
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-success",
+            type: "success"
+          }).then(function () {
+            window.location.reload();
+          }).catch(swal.noop);
+
+          } else if (r.msg == "Fail") {
+            $("#loading-overlay").hide();
+            alert(r.msg);
+
+          } else if (r.msg == "No Data") {
+            $("#loading-overlay").hide();
+            alert(r.msg);
+
+          } else {
+            $("#loading-overlay").hide();
+            alert(r.msg);
+          }
+
+        },
+        error: function () {
+          $("#loading-overlay").hide();
+          alert(r.msg);
+        }
+      });
+    });
+
+})
+  </script>
+
+}
+

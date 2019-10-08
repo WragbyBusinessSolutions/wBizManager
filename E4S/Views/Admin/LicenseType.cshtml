@@ -1,0 +1,229 @@
+﻿@model IEnumerable<BizManager.Models.WragbyAdmin.LicenseType>
+
+@{
+    ViewData["Title"] = "License Type";
+    Layout = "~/Views/Shared/_LayoutWragbyAdmin.cshtml";
+}
+
+
+
+<style>
+    .body-card {
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 1%;
+        margin-bottom: 2%;
+    }
+
+    .button-padding {
+        margin-right: 10px
+    }
+
+    .button-custom {
+        width: 100px;
+    }
+
+    .formdiv {
+        margin-bottom: 12px;
+    }
+    }
+</style>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-header body-card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6 pull-left">
+                                <h4 class="card-title">License Type Name</h4>
+                            </div>
+                            <div class="col-md-6 pull-right">
+
+                                <button class="btn btn-success btn-md pull-right btn-responsive" data-toggle="modal" data-target="#exampleModalLong">
+
+                                    <span class="btn-label">
+                                        <i class="now-ui-icons ui-1_simple-add"></i>
+                                    </span>
+
+                                    New License Type
+
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Add New License Type</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <form class="form-horizontal">
+                                                    <div class="col-md-12 formdiv">
+                                                        <label>License Type Name</label>
+
+                                                        <input type="text" class="form-control" placeholder=" License Type Name " id="LicenseTypeName" name="LicenseTypeName" required>
+
+                                                    </div>
+
+                                                    <div class="col-md-12 formdiv">
+                                                        <label>No of Admins</label>
+                                                        <input type="number" class="form-control" placeholder="E.g 20" id="NoOfAdmin" name="NoOfAdmin" required>
+
+                                                    </div>
+                                                    <div class="col-md-12 formdiv">
+                                                        <label>No of Users</label>
+                                                        <input type="number" class="form-control" placeholder="E.g 20" id="NoOfUsers" name="NoOfUsers" required>
+
+                                                    </div>
+
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-info" id="AddLicenceType" name="AddLicenceType">Generate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body body-card">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive" style="overflow:auto;">
+                                <table id="datatable compact" class="table table-hover">
+                                    <thead>
+                                        <tr>
+
+                                            <th><strong>Date Created</strong></th>
+                                            <th><strong>License Type Name</strong></th>
+                                            <th class="text-center"><strong>No of Users</strong></th>
+
+                                            <th class="text-center"><strong>No of Admins</strong></th>
+                                            <th class="text-center"><strong>Ststus</strong></th>
+                                            <th class="pull-right"><strong>Actions</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="fontweight">
+                                        @foreach (var item in Model)
+                                        {
+
+                                            <tr>
+
+                                                <td>@item.DateCreated</td>
+                                                <td>@item.LicenseTypeName </td>
+                                                <td class="text-center">@item.NoOfUsers</td>
+                                                <td class="text-center">@item.NoOfAdmin</td>
+                                                <td class="text-center">@item.Status</td>
+                                                <td class="">
+                                                    <a asp-action="ViewLicense" asp-controller="Admin" class="btn btn-info pull-right" data-toggle="tooltip" title="View Details"><i class="fa fa-eye"></i></a>
+                                                </td>
+
+                                            </tr>
+                                        }
+
+
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+
+         $("#AddLicenceType").click(function (event) {
+
+          event.preventDefault();
+
+              //$("#loading-overlay").show();
+          var NewLicenceType = {
+                LicenseTypeName: $("#LicenseTypeName").val(),
+                NoOfAdmin: $("#NoOfAdmin").val(),
+                NoOfUsers: $("#NoOfUsers").val(),
+           };
+
+
+          console.log(NewLicenceType);
+
+          $.ajax({
+            type: "POST",
+            url: "/Admin/CreateLicenceType",
+            data: JSON.stringify(NewLicenceType),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+              RequestVerificationToken:
+                $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            success: function (r) {
+
+              if (r.msg == "Success") {
+
+        	    swal({
+                    title: "Success!",
+                    text: "Licence Type Added!",
+                    buttonsStyling: false,
+                    confirmButtonClass: "btn btn-success",
+                type: "success"
+              }).then(function () {
+                window.location.reload();
+              }).catch(swal.noop);
+
+              } else if (r.msg == "Fail") {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+
+              } else if (r.msg == "No Data") {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+
+              } else {
+                $("#loading-overlay").hide();
+                alert(r.msg);
+              }
+
+            },
+            error: function () {
+              $("#loading-overlay").hide();
+              alert(r.msg);
+            }
+          });
+        });
+
+    })
+   
+
+    </script>
+
+
+}
+

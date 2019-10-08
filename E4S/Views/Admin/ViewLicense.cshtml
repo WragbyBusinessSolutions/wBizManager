@@ -1,0 +1,93 @@
+﻿@model  IEnumerable<BizManager.Models.WragbyAdmin.License>
+
+@{
+    ViewData["Title"] = "View License";
+    Layout = "~/Views/Shared/_LayoutWragbyAdmin.cshtml";
+}
+
+<style>
+    .btnwidth{
+        width: 100px;
+    }
+</style>
+
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="card-header body-card">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-6 pull-left">
+                                    <h4 class="card-title">View Licenses</h4>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-body body-card">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive" style="overflow:auto;">
+                                    <table id="datatable compact" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th><strong>S/N</strong></th>
+                                                <th><strong>License ID</strong></th>
+                                                <th><strong>Bundle Details</strong></th>
+                                                <th class="text-center"><strong>Expiry Date</strong></th>
+
+                                                <th class="pull-right"><strong>Status</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="fontweight">
+                                          @{
+                                            int i = 1;
+
+                                            @foreach (var item in Model)
+                                            {
+                                              <tr>
+                                                <td class="table-font">@i</td>
+                                                <td>@item.LicenseKey</td>
+                                                <td>@item.BatchLK.NoOfDays Days. @item.BatchLK.BatchName</td>
+                                                <td class="text-center">@item.ExpiryDate.ToString("dd MMM, yyyy")</td>
+
+                                                <td class="">
+                                                  @if (item.UserId != Guid.Empty)
+                                                  {
+                                                    <button class="btn btn-info btnwidth pull-right">Used</button>
+
+                                                  }
+                                                  else
+                                                  {
+                                                    <button class="btn btn-default btnwidth pull-right">Unused</button>
+
+                                                  }
+                                                </td>
+                                              </tr>
+
+                                              i++;
+                                            }
+
+                                          }
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
